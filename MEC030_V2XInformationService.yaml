@@ -56,6 +56,7 @@ paths:
           $ref: '#/components/responses/406'
         '429':
           $ref: '#/components/responses/429'       
+          
  /queries/uu_mbms_provisioning_info: 
   get:
    tags:
@@ -89,20 +90,286 @@ paths:
         '406':
           $ref: '#/components/responses/406'
         '429':
-          $ref: '#/components/responses/429'         
-  #/queries/pc5_provisioning_info:
-    #get: 
-  #/provide_predicted_qos:
-   #post:  
-  #/publish_v2x_message:
-   #post:    
-  #/subscriptions:
-   #get: 
-   #post: 
-  #/subscriptions/{subscriptionId}:
-   #get: 
-   #put:
-   #delete: 
+          $ref: '#/components/responses/429'  
+          
+ /queries/pc5_provisioning_info:
+   get: 
+    tags:
+    - 'queries'
+    summary: 'Query provisioning information for V2X communication over PC5.'
+    description: 'Query provisioning information for V2X communication over PC5.'
+    operationId: prov_infoGET
+    parameters:
+        - in: query
+          name: location_info
+          schema:
+           type: string
+          required: true
+          description: 'Comma separated list of locations to identify a cell of a base station or a particular geographical area'
+    responses:
+        '200':
+          description: 'A response body containing the PC5 provisioning information is returned.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pc5ProvisioningInfo'        
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '406':
+          $ref: '#/components/responses/406'
+        '429':
+          $ref: '#/components/responses/429'   
+          
+ /provide_predicted_qos:
+   post:  
+    tags:
+    - 'QoS'
+    summary: 'Request the predicted QoS correspondent to potential routes of a vehicular UE.'
+    description: 'Request the predicted QoS correspondent to potential routes of a vehicular UE.'
+    operationId: predicted_qosPOST
+    requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PredictedQos'
+    responses:
+        '200':
+          description: 'The response body shall contain the predicted QoS corresponding to potential routes of a vehicular UE'
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/PredictedQos'      
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'     
+          
+ /publish_v2x_message:
+   post:    
+    tags:
+    - 'V2X_msg'
+    summary: 'Used to publish a V2X message.'
+    description: 'Used to publish a V2X message.'
+    operationId: v2x_messagePOST
+    requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/V2xMsgPublication'  
+    responses:
+        '204':
+          $ref: '#/components/responses/204'      
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'         
+        '406':
+          $ref: '#/components/responses/406'
+        '429':
+          $ref: '#/components/responses/429'   
+          
+ /subscriptions:
+   get: 
+     tags:
+      - 'subscription'
+     summary: 'Request information about the subscriptions for this requestor.'
+     description: 'Request information about the subscriptions for this requestor.'
+     operationId: subGET  
+     parameters:
+          - in: query
+            name: subscription_type
+            description: 'Query parameter to filter on a specific subscription type. Permitted values:  prov_chg_uu_uni: provisioning information change for V2X communication over Uuunicast prov_chg_uu_mbms: provisioning information change for V2X communication over Uu MBMS prov_chg_uu_pc5: provisioning information change for V2X communication over PC5. v2x_msg: V2X interoperability message'
+            schema:
+             type: string
+            required: false   
+     responses:
+        '200':
+          description: 'A response body containing the list of links to requestor subscriptions is returned.'
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/SubscriptionLinkList'        
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '406':
+          $ref: '#/components/responses/406'
+        '429':
+          $ref: '#/components/responses/429'             
+   post: 
+    tags:
+    - 'subscription'
+    summary: ' create a new subscription to VIS notifications.'
+    description: ' create a new subscription to VIS notifications.'
+    operationId: subPOST  
+    requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+               - $ref: '#/components/schemas/ProvChgUuUniSubscription'
+               - $ref: '#/components/schemas/ProvChgUuMbmsSubscription'
+               - $ref: '#/components/schemas/ProvChgPc5Subscription'
+               - $ref: '#/components/schemas/V2xMsgSubscription'   
+    responses:
+        '201':
+          description: 'In the returned NotificationSubscription structure, the created subscription is described using the appropriate data type.'
+          content:
+            application/json:
+              schema:
+               oneOf:
+               - $ref: '#/components/schemas/ProvChgUuUniSubscription'
+               - $ref: '#/components/schemas/ProvChgUuMbmsSubscription'
+               - $ref: '#/components/schemas/ProvChgPc5Subscription'
+               - $ref: '#/components/schemas/V2xMsgSubscription'      
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '406':
+          $ref: '#/components/responses/406'
+        '415':
+          $ref: '#/components/responses/415'
+        '422':
+          $ref: '#/components/responses/422'  
+        '429':
+          $ref: '#/components/responses/429'  
+          
+          
+ /subscriptions/{subscriptionId}: 
+    parameters:
+    - in: path
+      name: subscriptionId
+      description: 'Refers to created subscription, where the VIS API allocates a unique resource name for this subscription'
+      schema:
+        type: string
+      required: true  
+
+
+    get:
+      tags:
+      - 'subscription'
+      summary: 'Retrieve information about this subscription.'
+      description: 'Retrieve information about this subscription.'
+      operationId: individualSubscriptionGET
+      
+      responses:
+        '200':
+          description: 'A response body containing the data type describing the specific RNI event subscription is returned' 
+          content:
+            application/json:
+              schema:
+               oneOf:
+               - $ref: '#/components/schemas/ProvChgUuUniSubscription'
+               - $ref: '#/components/schemas/ProvChgUuMbmsSubscription'
+               - $ref: '#/components/schemas/ProvChgPc5Subscription'
+               - $ref: '#/components/schemas/V2xMsgSubscription'  
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '406':
+          $ref: '#/components/responses/406'
+        '429':
+          $ref: '#/components/responses/429'   
+
+    put:
+      tags:
+      - 'subscription'
+      summary: 'Used to update the existing subscription.'
+      description: 'Used to update the existing subscription.'
+      operationId: individualSubscriptionPUT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+               - $ref: '#/components/schemas/ProvChgUuUniSubscription'
+               - $ref: '#/components/schemas/ProvChgUuMbmsSubscription'
+               - $ref: '#/components/schemas/ProvChgPc5Subscription'
+               - $ref: '#/components/schemas/V2xMsgSubscription'
+      responses:
+        '200':
+          description: 'A response body containing data type describing the updated subscription is returned' 
+          content:
+            application/json:
+              schema:
+               oneOf:
+               - $ref: '#/components/schemas/ProvChgUuUniSubscription'
+               - $ref: '#/components/schemas/ProvChgUuMbmsSubscription'
+               - $ref: '#/components/schemas/ProvChgPc5Subscription'
+               - $ref: '#/components/schemas/V2xMsgSubscription'  
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+          
+        '403':
+          $ref: '#/components/responses/403'
+          
+        '404':
+          $ref: '#/components/responses/404'
+          
+        '406':
+          $ref: '#/components/responses/406'
+          
+        '412':
+          $ref: '#/components/responses/412' 
+          
+        '422':
+          $ref: '#/components/responses/422'
+          
+        '429':
+          $ref: '#/components/responses/429'
+    delete:
+      tags:
+      - 'subscription'
+      summary: 'Used to cancel the existing subscription.'
+      description: 'Used to cancel the existing subscription.'
+      operationId: individualSubscriptionDELETE
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+          
   # /notifitication_end_point_provided_by_client
    #post: 
    
@@ -176,8 +443,6 @@ components:
       - dlTransmissionBandwidth
       type: object
       x-etsi-ref: 6.5.6
-    LocalityTypes:
-      type: string
       
     LocationInfo.geoArea:
           description: Information of a geographical area.
@@ -239,9 +504,7 @@ components:
     
     Pc5ProvisioningInfo.proInfoPc5:
             description: The provisioning information per location as defined below.
-            items:
-              type: object
-            minItems: 1
+            
             properties:
               dstLayer2Id:
                 description: "For sidelink communication, the Destination Layer-2 ID is set to the ProSe Layer-2 Group ID or Prose UE ID, see ETSI TS\_136\_321 [i.12].\nPLMN operators coordinate to make sure Destination Layer-2 ID(s) for different V2X services are configured in a consistent manner."
@@ -268,7 +531,9 @@ components:
     Pc5ProvisioningInfo:
       properties:
           proInfoPc5:
-            $ref: '#/components/schemas/Pc5ProvisioningInfo.proInfoPc5'
+            type: array
+            items:
+             $ref: '#/components/schemas/Pc5ProvisioningInfo.proInfoPc5'
           timeStamp:
             # description': Time stamp.
             # x-etsi-mec-cardinality': 0..1
@@ -296,6 +561,55 @@ components:
       - mnc
       type: object
       x-etsi-ref: 6.5.4
+    
+    PredictedQos.routes.routeInfo:
+      required:
+      - location
+      properties:
+        location:
+          $ref: '#/components/schemas/LocationInfo'
+        time:
+          $ref: '#/components/schemas/TimeStamp'
+        rsrp:
+          description: 'Reference Signal Received Quality as defined in ETSI TS 136 214 [i.13]. Shall only be included in the response'
+          type: integer
+          format: Uint8
+        
+        rsrq:
+          description: 'Reference Signal Received Quality as defined in ETSI TS 136 214 [i.13]. Shall only be included in the response'
+          type: integer  
+          format: Uint8
+          
+    PredictedQos.routes:
+     properties:
+      routeinfo:
+        description: 'Information relating to a specific route. The first structure shall relate to the route origin and the last to the route destination. Intermediate waypoint locations may also be provided. '
+        type: array
+        minItems: 2
+        items:
+          $ref: '#/components/schemas/PredictedQos.routes.routeInfo'
+     required:
+     - routeinfo
+      
+    PredictedQos:
+      description: 'predicted QoS of a vehicular UE'
+      properties:
+        timeGranularity:
+          $ref: '#/components/schemas/TimeStamp'
+        locationGranularity:
+          description: 'Granularity of visited location. Measured in meters'
+          type: string
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PredictedQos.routes'
+      required:
+      - locationGranularity
+      - routes
+      type: object
+      x-etsi-mec-cardinality: 0..1  
+      
+      
     ProvChgPc5Notification:
       properties:
         dstLayer2Id:
@@ -605,9 +919,7 @@ components:
       - filterCriteria
       type: object
       x-etsi-ref: 6.3.2
-    SerializerTypes:
-      type: string
-      
+
     SubscriptionLinkList.links.subscriptions:
                 description: "The service consumer\u2019s subscriptions."
                 properties:
@@ -716,12 +1028,6 @@ components:
       - transmissionBandwidth
       type: object
       x-etsi-ref: 6.6.4
-    TransportTypes:
-      type: string
-    Uint32:
-      type: number
-    UnsignedInt:
-      type: number
     UuMbmsNeighbourCellInfo:
       properties:
         ecgi:
@@ -901,6 +1207,20 @@ components:
       type: object
       x-etsi-ref: 6.5.8
       
+
+    msgType:
+          description: '− denm(1): Decentralized Environmental Notification Message (DENM) as specified in ETSI EN 302 637-3 [i.3], − cam(2): Cooperative Awareness Message (CAM) as specified in ETSI EN 302 637-2 [i.2], − poi(3): Point of Interest message as specified in ETSI TS 101 556-1 [i.11], − spat(4): Signal Phase And Timing (SPAT) message as specified in SAE J2735 [i.12], − map(5): MAP message as specified in SAE J2735 [i.12], − ivi(6): In Vehicle Information (IVI) message as defined in ISO TS 19321 [i.13], − ev-rsr(7): Electric vehicle recharging spot reservation message, as defined in ETSI TS 101 556-3 [i.14], '
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          type: integer
+          x-etsi-mec-cardinality: '1'
+          x-etsi-mec-origin-type: Enum  
     
     V2xMsgPublication:
       properties:
@@ -915,16 +1235,12 @@ components:
           x-etsi-mec-cardinality: '1'
           x-etsi-mec-origin-type: String
         msgType:
-          description: Published V2X message type. Its value is defined by the standardization organization indicated by the attribute stdOrganization. See note 2.
-          enum:
-          - SEE_DESCRIPTION
-          type: string
-          x-etsi-mec-cardinality: '1'
+          $ref: '#/components/schemas/msgType'
           #x-etsi-mec-origin-type: Enum
         stdOrganization:
           description: "Standardization organization which defines the published V2X message type: \nETSI: European Telecommunications Standards Institute. \nSee note 1."
           enum:
-          - SEE_DESCRIPTION
+          - ETSI
           type: string
           x-etsi-mec-cardinality: '1'
           #-etsi-mec-origin-type: Enum
@@ -934,7 +1250,7 @@ components:
       - msgEncodeFormat
       - msgContent
       type: object
-      x-etsi-notes: "NOTE 1:\tOther standardization organizations could be added as needed.\nNOTE 2:\tThe V2X message types of ETSI shall be used as specified in ETSI TS 102 894-2 [6], clause A.114."
+      x-etsi-notes: "NOTE 1: Other standardization organizations could be added as needed.NOTE 2:The V2X message types of ETSI shall be used as specified in ETSI TS 102 894-2 [6], clause A.114."
       x-etsi-ref: 6.2.6
       
     V2xMsgSubscription.links:
@@ -949,6 +1265,7 @@ components:
           - self
           type: object
           x-etsi-mec-cardinality: 0..1
+          
     V2xMsgSubscription.filterCriteria:
           description: List of filtering criteria for the subscription. Any filtering criteria from below, which is included in the request, shall also be included in the response.
           properties:
@@ -963,7 +1280,7 @@ components:
             stdOrganization:
               description: "Standardization organization which defines the subscribed V2X message type: \nETSI: European Telecommunications Standards Institute. \nSee note 1."
               enum:
-              - SEE_DESCRIPTION
+              - ETSI
               type: string
               x-etsi-mec-cardinality: '1'
               x-etsi-mec-origin-type: Enum
@@ -1001,6 +1318,58 @@ components:
       type: object
       x-etsi-notes: "NOTE 1:\tOther standardization organizations could be added as needed.\nNOTE 2:\tThe V2X message types of ETSI shall be used as specified in ETSI TS 102 894-2 [6], clause A.114."
       x-etsi-ref: 6.3.5
+
+
+    V2xMsgNotification.links:
+          description: 'Links to resources related to this notification.'
+          properties:
+            subscription:
+              # description': Self-referring URI. The URI shall be unique within the VIS API as it acts as an ID for the subscription.
+              # x-etsi-mec-cardinality': '1'
+              # x-etsi-mec-origin-type': LinkType
+              $ref: '#/components/schemas/LinkType'
+          required:
+          - subscription
+          type: object
+          x-etsi-mec-cardinality: 0..1
+
+    V2xMsgNotification:
+      properties:
+        notificationType:
+          description: Shall be set to "V2xMsgNotification".
+          type: string
+          x-etsi-mec-cardinality: '1'
+          x-etsi-mec-origin-type: String
+        timeStamp:
+          # description': Time stamp.
+          # x-etsi-mec-cardinality': 0..1
+          # x-etsi-mec-origin-type': TimeStamp
+          $ref: '#/components/schemas/TimeStamp'
+        stdOrganization:
+          description: 'Standardization organization which defines the published V2X message type ETSI: European Telecommunications Standards Institute. See note 1.'
+          enum:
+          - "ETSI"
+          type: string
+        msgType:
+          $ref: '#/components/schemas/msgType'
+        msgEncodeFormat:
+          description: 'The encode format of the V2X message, for example base64 '
+          type: string  
+        msgContent:
+          description: 'Published V2X message content. The format of the string is defined by the standardization organization indicated by the attribute stdOrganization.'
+          type: string
+        _links:
+          $ref: '#/components/schemas/V2xMsgNotification.links'
+      required:
+      - notificationType
+      - timeStamp
+      - stdOrganization
+      - msgType
+      - msgEncodeFormat
+      - msgContent
+      - _links
+      type: object
+      x-etsi-notes: "NOTE 1: Other standardization organizations could be added as needed. NOTE 2: The V2X message types of ETSI shall be used as specified in ETSI TS 102 894-2 [6], clause A.114"
       
     V2xServerUsd.sdpInfo:
           description: SDP with IP multicast address and port number used for V2X communication via MBMS.
@@ -1065,9 +1434,7 @@ components:
       - sdpInfo
       type: object
       x-etsi-ref: 6.5.10
-    VirtualNetworkInterfaceRequirements:
-      type: string
-      
+
     LinkType:
       description: >-
         'This data type represents a type of link'

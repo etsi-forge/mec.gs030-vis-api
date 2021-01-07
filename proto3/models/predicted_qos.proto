@@ -12,10 +12,16 @@ syntax = "proto3";
 
 package mec030;
 
-import public "models/subscription_link_list_links.proto";
+import public "models/predicted_qos_routes.proto";
+import public "models/time_stamp.proto";
 
-message SubscriptionLinkList {
+message PredictedQos {
 
-  SubscriptionLinkListLinks links = 1;
+  TimeStamp time_granularity = 1;
+
+  // Granularity of visited location. Measured in meters
+  string location_granularity = 2;
+
+  repeated PredictedQosRoutes routes = 3;
 
 }

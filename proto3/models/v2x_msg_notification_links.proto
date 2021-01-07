@@ -11,11 +11,12 @@
 syntax = "proto3";
 
 package mec030;
+option java_outer_classname = "V2xMsgNotificationLinksProto";
 
-import public "models/subscription_link_list_links.proto";
+import public "models/link_type.proto";
 
-message SubscriptionLinkList {
+message V2xMsgNotificationLinks {
 
-  SubscriptionLinkListLinks links = 1;
+  LinkType subscription = 1;
 
 }

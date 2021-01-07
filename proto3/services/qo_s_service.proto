@@ -12,10 +12,16 @@ syntax = "proto3";
 
 package mec030;
 
-import public "models/subscription_link_list_links.proto";
+import public "models/predicted_qos.proto";
+import public "models/problem_details.proto";
 
-message SubscriptionLinkList {
-
-  SubscriptionLinkListLinks links = 1;
+service QoSService {
+  rpc PredictedQosPOST (PredictedQosPOSTRequest) returns (PredictedQos);
 
 }
+
+message PredictedQosPOSTRequest {
+  PredictedQos predicted_qos = 1;
+
+}
+

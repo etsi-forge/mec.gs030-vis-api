@@ -12,10 +12,16 @@ syntax = "proto3";
 
 package mec030;
 
-import public "models/subscription_link_list_links.proto";
 
-message SubscriptionLinkList {
-
-  SubscriptionLinkListLinks links = 1;
-
+message MsgType {
+enum TypeEnum {
+		MSG_TYPE_TYPE_ENUM_1 = 0;
+		MSG_TYPE_TYPE_ENUM_2 = 1;
+		MSG_TYPE_TYPE_ENUM_3 = 2;
+		MSG_TYPE_TYPE_ENUM_4 = 3;
+		MSG_TYPE_TYPE_ENUM_5 = 4;
+		MSG_TYPE_TYPE_ENUM_6 = 5;
+		MSG_TYPE_TYPE_ENUM_7 = 6;
+	}
 }
+
