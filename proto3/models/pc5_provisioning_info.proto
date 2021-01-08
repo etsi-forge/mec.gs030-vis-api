@@ -12,6 +12,7 @@ syntax = "proto3";
 
 package mec030;
 
+option java_multiple_files=true;
 import public "models/pc5_provisioning_info_pro_info_pc5.proto";
 import public "models/time_stamp.proto";
 

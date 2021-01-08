@@ -12,6 +12,7 @@ syntax = "proto3";
 
 package mec030;
 
+option java_multiple_files=true;
 import "google/protobuf/empty.proto";
 import public "models/problem_details.proto";
 import public "models/v2x_msg_publication.proto";

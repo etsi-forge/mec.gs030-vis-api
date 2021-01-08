@@ -12,6 +12,7 @@ syntax = "proto3";
 
 package mec030;
 
+option java_multiple_files=true;
 import public "models/pc5_provisioning_info.proto";
 import public "models/problem_details.proto";
 import public "models/uu_mbms_provisioning_info.proto";

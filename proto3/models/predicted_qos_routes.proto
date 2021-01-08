@@ -12,6 +12,7 @@ syntax = "proto3";
 
 package mec030;
 
+option java_multiple_files=true;
 import public "models/predicted_qos_routes_route_info.proto";
 
 message PredictedQosRoutes {

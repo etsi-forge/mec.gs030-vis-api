@@ -12,6 +12,7 @@ syntax = "proto3";
 
 package mec030;
 
+option java_multiple_files=true;
 import public "models/time_stamp.proto";
 import public "models/v2x_msg_subscription_filter_criteria.proto";
 import public "models/v2x_msg_subscription_links.proto";
