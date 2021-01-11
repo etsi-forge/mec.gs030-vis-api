@@ -12,7 +12,6 @@ syntax = "proto3";
 
 package mec030;
 
-option java_multiple_files=true;
 import public "models/location_info.proto";
 import public "models/time_stamp.proto";
 import public "models/uu_uni_neighbour_cell_info.proto";

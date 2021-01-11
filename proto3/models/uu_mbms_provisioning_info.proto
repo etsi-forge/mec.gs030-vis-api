@@ -12,7 +12,6 @@ syntax = "proto3";
 
 package mec030;
 
-option java_multiple_files=true;
 import public "models/time_stamp.proto";
 import public "models/uu_mbms_provisioning_info_pro_info_uu_mbms.proto";
 
