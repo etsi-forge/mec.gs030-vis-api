@@ -260,7 +260,28 @@ paths:
           $ref: '#/components/responses/422'  
         '429':
           $ref: '#/components/responses/429'  
-          
+ 
+    callbacks:
+         notification:
+          '{$request.body#/callbackReference}':
+            post:
+              summary: 'Callback POST used to send a notification'
+              description: 'A notification from VIS.'
+              operationId: notificationPOST
+              requestBody:
+                description: Subscription notification
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      oneOf:
+                      - $ref: '#/components/schemas/ProvChgUuUniNotification'
+                      - $ref: '#/components/schemas/ProvChgUuMbmsNotification'
+                      - $ref: '#/components/schemas/ProvChgPc5Notification'
+                      - $ref: '#/components/schemas/V2xMsgNotification'
+              responses:
+                '204':
+                  $ref: '#/components/responses/204'         
           
  /subscriptions/{subscriptionId}: 
     parameters:
