@@ -6,8 +6,8 @@ This repository contains OpenAPIs descriptions for the interfaces specified in E
 ## Online resources
 
 * [Specification document](https://www.etsi.org/deliver/etsi_gs/MEC/001_099/030/02.01.01_60/gs_MEC030v020101p.pdf)
-* [Navigate the V2X Information Service API in the browser](https://forge.etsi.org/swagger/ui/?url=https://forge.etsi.org/rep/mec/gs030-vis-api/raw/develop/MEC030_V2XInformationService.yaml).
-* [Edit the V2X Information Service API online](https://forge.etsi.org/swagger/editor/?url=https://forge.etsi.org/rep/mec/gs030-vis-api/raw/develop/MEC030_V2XInformationService.yaml).
+* [Navigate the V2X Information Service API in the browser](https://forge.etsi.org/swagger/ui/?url=https://forge.etsi.org/rep/mec/gs030-vis-api/raw/v2.1.1/MEC030_V2XInformationService.yaml).
+* [Edit the V2X Information Service API online](https://forge.etsi.org/swagger/editor/?url=https://forge.etsi.org/rep/mec/gs030-vis-api/raw/v2.1.1/MEC030_V2XInformationService.yaml).
 
 
 ## License 
